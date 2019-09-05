@@ -1,96 +1,98 @@
-# Template for hosting python scripts and applications on Heroku
+# Tz-Brute
+Tezos password bruteforcer built on top of Arthur Breitman's fundraiser tools for validation.  
+  
+## How to use:  
+##### Mac OS
+###### Just run ```run-osx.sh``` or follow the steps below:
 
-This is a small example of running your script with
-[Heroku](https://www.heroku.com/). You can run almost any python application
-with any dependencies.
+Firstly you'll need to install Python 3 if you don't have it already.  
+pyenv is a great way to manage multiple python installations, if you want to use pyenv open up a Terminal and run:  
+```bash
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+pyenv install 3.6.5
+pyenv global 3.6.5
+```  
+If you don't want to use pyenv you can download Python 3 here:  
+https://www.python.org/downloads/  
+  
+Next step is installing pip:
+```bash
+sudo easy_install pip
+```  
+  
+Now we have pip we need to download and unzip this file:  
+https://github.com/NODESPLIT/tz-brute/archive/master.zip  
+You can then type "cd " into terminal (without brackets and with the space at the end) then drag and drop the newly unzipped folder into the terminal window and run the resulting command.  
+  
+We now need to install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-## Getting Started
+From here we can run Tz-Brute like so:
+```bash
+python main.py
+```
+  
+##### Linux
+###### Just run ```run-linux.sh```
+  
+##### Windows
+###### coming soon
+###
+###
+## Parameters:
+##### Charset (1 - 6):
+This is basically the characters that could be in your password, the lower the number and the less in the charset the better as it'll mean less permutations to test.
+```
+1| "0123456789"
+2| "0123456789abcdefghijklmnopqrstuvwxyz"
+3| "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+4| "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+5| "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+6| "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+```
+##### Minimum (1 - ?):
+This is the password length that the bruteforcer will start at, this can really help cut down on crack time by skipping the multitudes of permutations possible in lengths that you don't think your password would be.
 
-1. Download or clone this repository
-2. Register on [Heroku](https://www.heroku.com/)
-3. Download and install [Heroku CLI](https://devcenter.heroku.com/articles/getting-started-with-python#set-up)
-4. Download and install [git](https://git-scm.com/downloads)
-5. Copy your script or project to this repository's folder
-6. Replace "script.py" with the path to your main executable file in `Procfile`
+##### Public key (e.g. tz1ABCDeF...):
+This is the address you were given as your Tezos address upon contribution.
 
-   ```procfile
-   worker: python script.py
-   ```
+##### Email address:
+This is the email address you used when you contributed. This is CASE SENSITIVE.
 
-   > If you are getting errors, you can try replace `worker` with `web`.
-7. You may select your python version and runtime using `runtime.txt`. Read
-   how on [official heroku page](https://devcenter.heroku.com/articles/python-runtimes#selecting-a-runtime).
-8. If you are using any not built-in modules, you must add them to your
-   `requirements.txt`. To check which version of the module you have, run
-   `pip freeze` in the terminal. You will get lines with information about
-   installed modules and their versions in the format like
-   `MODULE_NAME==MODULE_VERSION`. Add lines with required modules and their
-   versions to your `requirements.txt`. Don't keep unused modules in
-   `requirements.txt`. This file should contain every module your application
-   needs. Heroku will install modules from this file automatically.
-9. Open terminal (or do it another way, but I will explain how to do it in
-   the terminal on Ubuntu) and create a git repository.
-   1. Initiate git repository
+##### Mnemonic (e.g. apples cat radio...):
+This is the mnemonic you received upon contribution, it will be within the PDF you downloaded. It's a long string of words all in lowercase separated by spaces.
 
-      ```bash
-      git init
-      ```
+## Reset:
+Without resetting the script will start from where it last left off.  
+You can reset your anchor.json by running:
+```bash
+python main.py reset
+```
+This will backup your anchor.json with a timestamp, remember to delete these when you're done as they will have your contribution details in them.
 
-   2. Create heroku application
+###
+###
+###
+###
+___
+###
+###
+###
 
-      ```bash
-      heroku create
-      ```
-
-   3. Add, commit and push your code into branch `master` of the
-      remote `heroku`.
-
-      ```bash
-      git add .
-      git commit -m "initial commit"
-      git push heroku master
-      ```
-
-10. Specify the amount of worker that will run your application
-
-    ```bash
-    heroku ps:scale worker=1
-    ```
-
-11. Now everything should be working. You can check your logs with this command
-
-    ```bash
-    heroku logs --tail
-    ```
-
-12. You can open the URL where the script is deployed using the below
-    command (if you are deploying web application)
-
-    ```bash
-    heroku open
-    ```
-
-13. From now on you can use usual git commands (push, add, commit, etc.)
-    to update your app. Every time you `push heroku master` your
-    app gets redeployed with updated source code
-
-14. To stop your application scale down the amount of workers with like this
-
-     ```bash
-    heroku ps:scale worker=0
-    ```
-
-### Prerequisites
-
-* [Heroku CLI](https://devcenter.heroku.com/articles/getting-started-with-python#set-up)
-* [git](https://git-scm.com/downloads)
-
-## Authors
-
-* @michaelkrukov - https://michaelkrukov.ru/
-
-## Acknowledgments
-
-* [Official guide to deploy app](https://devcenter.heroku.com/articles/getting-started-with-python#introduction)
-* [Official guide about worker](https://devcenter.heroku.com/articles/background-jobs-queueing)
-* [Guided "Simple twitter-bot with Python, Tweepy and Heroku"](http://briancaffey.github.io/2016/04/05/twitter-bot-tutorial.html)
+built by Jon - admin of the [unofficial Tezos Telegram](https://t.me/tezosplatform)  
+  
+web: [e.rroneo.us](http://e.rroneo.us/)  
+email: [jon@e.rroneo.us](mailto:jon@e.rroneo.us)  
+telegram: [@erroneous](https://t.me/erroneous)  
+  
+feel free to contact me with any questions!  
+  
+  
+feeling generous?  
+  
+tez: tz1MDNRzDjHEXrMM17MeajYBBJwGVWBrgWhb  
+eth: 0xbebb3c979daa3fbe89af4fb624c454ab842b18b3  
+btc: 3NSczAYLbyhKpKACW2epwgxUZVfthbUHzR  
+ltc: MDt9foDqjRhuCrWQhucYdJgCjXgASdShw9  
